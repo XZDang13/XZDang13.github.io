@@ -14,7 +14,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/NormLayerInDRL/result_cart_pole.png">
 <meta property="article:published_time" content="2023-11-06T22:24:02.000Z">
-<meta property="article:modified_time" content="2023-11-06T22:49:42.035Z">
+<meta property="article:modified_time" content="2023-11-06T22:53:03.071Z">
 <meta property="article:author" content="XD">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/NormLayerInDRL/result_cart_pole.png">
@@ -93,7 +93,7 @@
 <p>The architecture of the agent consists of separate but identical CNN-based actor and critic networks, each comprising a three-layer CNN. These layers have a kernel size of 5 and a stride of 2, with the progression of channels being [2, 16], [16, 32], and [32, 32]. To assess the influence of different normalization techniques, I set up three variations: a Vanilla CNN (lacking any normalization), one with Batch Normalization (BN), and another with Instance Normalization (IN).</p>
 <p>Training was conducted using Proximal Policy Optimization (PPO) over 1000 iterations, with the networks receiving five updates per iteration. Evaluation occurred at every 100-iteration interval, where I ran the agent for 10 episodes and recorded the average total rewards to gauge performance. Both the actor and critic networks were optimized using the AdamW optimizer, with a learning rate fixed at 1e-3.</p>
 <p>For each CNN structure, I conducted three training runs with distinct random seeds to ensure robustness in the results. The aggregated outcomes are presented in the figures below. Consistent with anecdotal evidence from various blogs and discussions, the use of Batch Normalization (BN) resulted in significantly poorer performance compared to the CNN without any normalization layers. Interestingly, the inclusion of Instance Normalization (IN) led to substantially better results than those achieved without normalization layers.</p>
-<p><img src="/NormLayerInDRL/result_cart_pole.png" alt="loading-ag-141">ult_cart_pole.png.jpg)ult_cart_pole.png.jpg)</p>
+<p><img src="/NormLayerInDRL/result_cart_pole.png" alt="results"></p>
 <p>As of yet, I have not experimented with Group Normalization (GN), mainly because the channel sizes in the CNNs employed do not warrant its use. It remains a matter of </p>
 <p>Moreover, the encouraging performance of IN prompts further investigation. It’s imperative to consider if the observed benefit is particular to the simplicity of the Cart-Pole environment or if it can be generalized to more complex scenarios, such as those presented by Atari games. Conducting experiments in these environments may offer deeper insights into the efficacy of normalization layers in convolutional neural networks for reinforcement learning.</p>
 <p>(To be continue…)</p>
