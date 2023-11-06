@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>NormLayerInDRL | XD_Frog&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I am currently engaged in a project where image-based observations are central to our methodology. This has led to an intriguing observation: in most reinforcement learning (RL) projects that incorpor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NormLayerInDRL">
+<meta property="og:url" content="http://example.com/2023/11/06/NormLayerInDRL/index.html">
+<meta property="og:site_name" content="XD_Frog&#39;s Blog">
+<meta property="og:description" content="I am currently engaged in a project where image-based observations are central to our methodology. This has led to an intriguing observation: in most reinforcement learning (RL) projects that incorpor">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/.com//xdang/Desktop/blog/source/_posts/NormLayerInDRL/result_cart_pole.png">
+<meta property="article:published_time" content="2023-11-06T22:24:02.000Z">
+<meta property="article:modified_time" content="2023-11-06T22:38:12.866Z">
+<meta property="article:author" content="XD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/.com//xdang/Desktop/blog/source/_posts/NormLayerInDRL/result_cart_pole.png">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/typing.css">
+
+  
+<link rel="stylesheet" href="/css/donate.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-NormLayerInDRL" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <header id="header" class="header">
+  <nav class="mobile-nav">
+    <h1 class="nickname">XD_Frog</h1>
+    <ul class="mobile-nav-menu">
+      <label for="mobile-menu-toggle"><a id="menu-button">&#9776; Menu</a></label>
+      <input type="checkbox" id="mobile-menu-toggle"/>
+      <ul class="mobile-nav-link">
+        
+        <a href="/">Home</a>
+        
+        <a href="/archives">Archives</a>
+        
+      </ul>
+    </ul>
+  </nav>
+	
+		<nav id="main-nav" class="main-nav nav-left">
+	
+	
+	  <a class="main-nav-link" href="/">Home</a>
+	
+	  <a class="main-nav-link" href="/archives">Archives</a>
+	
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      NormLayerInDRL
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry typo" itemprop="articleBody">
+      
+        <p>I am currently engaged in a project where image-based observations are central to our methodology. This has led to an intriguing observation: in most reinforcement learning (RL) projects that incorporate image inputs, there seems to be a noticeable absence of Batch Normalization (BN) layers within their CNN architectures.</p>
+<p>Driven by curiosity, I delved into the literature and found that BN layers might not only fail to aid the training process but might also introduce instability into deep reinforcement learning (DRL) systems. This discovery prompts an essential question: are all types of normalization layers—including Batch Normalization (BN), Instance Normalization (IN), and Group Normalization (GN)—ineffective or potentially detrimental in the context of RL?</p>
+<p>If indeed these normalization strategies are unsuitable, I am left to wonder about the implications for deep CNNs in RL agents. How would such networks cope with the challenges of learning without the benefits of normalization layers? Understanding the consequences of this could be critical for designing robust and efficient deep learning models for RL applications.</p>
+<p>To investigate the effects of different normalization layers, I designed an experiment focusing on a modified version of the Cart-Pole environment from OpenAI’s Gym, due to current constraints on time and computational resources. I have restructured the Cart-Pole environment into a class that provides observations in the form of image sequences, specifically the last two frames.</p>
+<p>The architecture of the agent consists of separate but identical CNN-based actor and critic networks, each comprising a three-layer CNN. These layers have a kernel size of 5 and a stride of 2, with the progression of channels being [2, 16], [16, 32], and [32, 32]. To assess the influence of different normalization techniques, I set up three variations: a Vanilla CNN (lacking any normalization), one with Batch Normalization (BN), and another with Instance Normalization (IN).</p>
+<p>Training was conducted using Proximal Policy Optimization (PPO) over 1000 iterations, with the networks receiving five updates per iteration. Evaluation occurred at every 100-iteration interval, where I ran the agent for 10 episodes and recorded the average total rewards to gauge performance. Both the actor and critic networks were optimized using the AdamW optimizer, with a learning rate fixed at 1e-3.</p>
+<p>For each CNN structure, I conducted three training runs with distinct random seeds to ensure robustness in the results. The aggregated outcomes are presented in the figures below. Consistent with anecdotal evidence from various blogs and discussions, the use of Batch Normalization (BN) resulted in significantly poorer performance compared to the CNN without any normalization layers. Interestingly, the inclusion of Instance Normalization (IN) led to substantially better results than those achieved without normalization layers.</p>
+<p><img src="/.com//xdang/Desktop/blog/source/_posts/NormLayerInDRL/result_cart_pole.png"></p>
+<p>As of yet, I have not experimented with Group Normalization (GN), mainly because the channel sizes in the CNNs employed do not warrant its use. It remains a matter of speculation whether GN would mirror the performance improvements seen with IN or align more closely with the suboptimal results of BN. This is an aspect that I am currently contemplating.</p>
+<p>Moreover, the encouraging performance of IN prompts further investigation. It’s imperative to consider if the observed benefit is particular to the simplicity of the Cart-Pole environment or if it can be generalized to more complex scenarios, such as those presented by Atari games. Conducting experiments in these environments may offer deeper insights into the efficacy of normalization layers in convolutional neural networks for reinforcement learning.</p>
+<p>(To be continue…)</p>
+<p>(Later I will upload the codes into github.)</p>
+
+      
+      
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2023/11/06/NormLayerInDRL/" class="article-date">
+  <time class="dt-published" datetime="2023-11-06T22:24:02.000Z" itemprop="datePublished">2023-11-06</time>
+</a>
+
+        </li>
+        
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>This is a blog. Post</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/typing.js"></script>
+
+<!--[if lt IE 9]>
+<script src="https://cdn.jsdelivr.net/npm/html5shiv@3/dist/html5shiv.min.js"></script>
+<![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
