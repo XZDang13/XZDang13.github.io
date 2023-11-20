@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <title>Use VAE to encoder Observations for RL | XD_Frog&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="My work centers on image-based environments, where effectively training Reinforcement Learning (RL) agents with image inputs poses a significant challenge. Unlike large labs or companies, I operate wi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Use VAE to encoder Observations for RL">
+<meta property="og:url" content="http://example.com/2023/11/20/Observations/index.html">
+<meta property="og:site_name" content="XD_Frog&#39;s Blog">
+<meta property="og:description" content="My work centers on image-based environments, where effectively training Reinforcement Learning (RL) agents with image inputs poses a significant challenge. Unlike large labs or companies, I operate wi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-11-20T14:20:43.000Z">
+<meta property="article:modified_time" content="2023-11-20T14:41:35.309Z">
+<meta property="article:author" content="XD">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/typing.css">
+
+  
+<link rel="stylesheet" href="/css/donate.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+  
+    
+      <body>
+    
+  
+      <div id="container" class="container">
+        <article id="post-Observations" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <header id="header" class="header">
+  <nav class="mobile-nav">
+    <h1 class="nickname">XD_Frog</h1>
+    <ul class="mobile-nav-menu">
+      <label for="mobile-menu-toggle"><a id="menu-button">&#9776; Menu</a></label>
+      <input type="checkbox" id="mobile-menu-toggle"/>
+      <ul class="mobile-nav-link">
+        
+        <a href="/">Home</a>
+        
+        <a href="/archives">Archives</a>
+        
+      </ul>
+    </ul>
+  </nav>
+	
+		<nav id="main-nav" class="main-nav nav-left">
+	
+	
+	  <a class="main-nav-link" href="/">Home</a>
+	
+	  <a class="main-nav-link" href="/archives">Archives</a>
+	
+  </nav>
+</header>
+
+  <hr/>
+  <div class="article-inner">
+    
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Use VAE to encoder Observations for RL
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry typo" itemprop="articleBody">
+      
+        <p>My work centers on image-based environments, where effectively training Reinforcement Learning (RL) agents with image inputs poses a significant challenge. Unlike large labs or companies, I operate with limited computing resources, making it imperative to consider time, CPU, GPU, and memory constraints during training. Designing models to receive raw image inputs necessitates computing the gradients of the entire network. This approach is manageable for simpler tasks using on-policy RL algorithms, though it results in slower performance. However, for more complex scenarios requiring parallel training or off-policy RL algorithms, managing memory on both the GPU and CPU becomes a critical issue.</p>
+<p>I am considering the possibility of separating the Convolutional Neural Network (CNN) layers from the post-processing layers (policy and value layers) within the network architecture. My strategy involves training the CNN layers using Variational Autoencoders (VAE) or other self-supervised learning methods to effectively capture the key features of the input images. Once trained, I plan to freeze the weights of the CNN and use its output as the observations for the RL agent. This approach simplifies the training of the post-processing layers, which typically comprise a stack of Multi-Layer Perceptrons (MLPs). These layers, being less resource-intensive, can be efficiently trained using a CPU, which significantly reduces the overall resource requirements.</p>
+<p>Currently, I am deliberating on the optimal approach to train the Variational Autoencoder (VAE). Typically, training involves stacking several frames together to capture the motion information of the environment. The dilemma lies in choosing between inputting stacked images or single images into the VAE. Inputting single images would necessitate a method to connect or fuse the encoded features in the post-processing layers, potentially enlarging these layers. Conversely, with stacked images, there’s uncertainty about the capability of the CNN, when trained with the VAE, to effectively capture meaningful motion information. This decision is crucial as it directly impacts the structure and complexity of the post-processing layers and the overall efficiency of the model.</p>
+
+      
+      
+    </div>
+    <footer class="article-footer">
+      <ul class="article-meta">
+        <li>
+          <span class="label">Published Date:</span>
+          <a href="/2023/11/20/Observations/" class="article-date">
+  <time class="dt-published" datetime="2023-11-20T14:20:43.000Z" itemprop="datePublished">2023-11-20</time>
+</a>
+
+        </li>
+        
+        
+        <hr/>
+      </ul>
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav" class="article-nav">
+  
+    <span id="article-nav-newer" class="article-nav-link-wrap newer"></span>
+  
+  
+    <a href="/2023/11/06/NormLayerInDRL/" id="article-nav-older" class="article-nav-link-wrap older">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">NormLayerInDRL</div>
+    </a>
+  
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+      </div>
+      
+    <footer id="footer" class="post-footer footer">
+      
+      <hr/>
+      <div id="footerContent" class="footer-content">
+        <p>This is a blog. Post</p>
+
+
+      </div>
+    </footer>
+
+      
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/typing.js"></script>
+
+<!--[if lt IE 9]>
+<script src="https://cdn.jsdelivr.net/npm/html5shiv@3/dist/html5shiv.min.js"></script>
+<![endif]-->
+
+
+
+
+
+
+
+    </div>
+  </body>
+</html>
